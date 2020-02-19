@@ -20,13 +20,13 @@ export const initialState = {
 
 export const carListReducer = (state = initialState, action) => {
 
-    // Array that holds the feature ID's for later comparisons
-    const itemTracker = state.car.features.map(item => {
-        return item.id
-    })
-
     switch (action.type) {
         case 'ADD_FEATURE':
+
+            // Array that holds the feature ID's for later comparisons
+            const itemTracker = state.car.features.map(item => {
+                return item.id
+            })
 
             // If feature already added, you will not be allowed to add again until you remove that feature. Returns existing state.
             if (itemTracker.includes(action.payload.id)) {
