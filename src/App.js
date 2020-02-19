@@ -9,13 +9,6 @@ import { connect } from 'react-redux'
 
 const App = (props) => {
 
-  const removeFeature = item => {
-    // dispatch an action here to remove an item
-  };
-
-  const buyItem = item => {
-    // dipsatch an action here to add an item
-  };
 
   return (
     <div className="boxes">
@@ -31,8 +24,8 @@ const App = (props) => {
   );
 };
 
+// Allowing state to be stored in Redux store
 const mapStateToProps = (state) => {
-  console.log(state)
   return {
     car: state.car,
     additionalFeatures: state.additionalFeatures,

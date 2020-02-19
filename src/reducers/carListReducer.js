@@ -3,7 +3,7 @@
 export const initialState = {
     additionalPrice: 0,
     car: {
-        price: 26395,
+        price: 26000,
         name: '2019 Ford Mustang',
         image:
             'https://cdn.motor1.com/images/mgl/0AN2V/s1/2019-ford-mustang-bullitt.jpg',
@@ -20,38 +20,41 @@ export const initialState = {
 
 export const carListReducer = (state = initialState, action) => {
 
+    // Array that holds the feature ID's for later comparisons
     const itemTracker = state.car.features.map(item => {
         return item.id
     })
-    console.log(itemTracker)
 
     switch (action.type) {
         case 'ADD_FEATURE':
-            // console.log('add feature', state, action)
+
+            // If feature already added, you will not be allowed to add again until you remove that feature. Returns existing state.
             if (itemTracker.includes(action.payload.id)) {
                 alert('Already added')
                 return { ...state }
             } else {
+
+                // If feature not yet added, it gets added to the features array and the total price adjusts accordingly.
                 return {
                     ...state,
-                    car: { ...state.car, price: state.car.price + action.payload.price, features: [...state.car.features, action.payload] }
+                    additionalPrice: state.additionalPrice + action.payload.price, car: { ...state.car, price: state.car.price, features: [...state.car.features, action.payload] }
                 };
             }
         case 'REMOVE_FEATURE':
-            // console.log('remove feature', state, action)
+
+            // Gets index of payload + 1 to ensure accurate index position for removal.
             let itemIndex = state.car.features.indexOf(action.payload) + 1
-            // console.log(index)
+
+            // Removes specific feature from array
             let remove = state.car.features.splice(itemIndex, 1)
-            // console.log(remove)
+
+            // Gets removed feature's price so that an accurate price will be subtracted from the total.
             let subtract = remove.map(i => i.price)
-            console.log(subtract)
-            // console.log(remove)
-            // let filter = state.car.features.filter(feature => {
-            //     return feature.id !== action.payload.id;
-            // })
+
+            //  Returns an updated state with adjusted features array and updated total price.
             return {
                 ...state,
-                car: { ...state.car, price: state.car.price - Number(subtract), features: [...state.car.features] }
+                additionalPrice: state.additionalPrice - Number(subtract), car: { ...state.car, features: [...state.car.features] }
             }
         default:
             return state;
