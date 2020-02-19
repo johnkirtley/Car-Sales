@@ -27,10 +27,18 @@ export const carListReducer = (state = initialState, action) => {
                 car: { ...state.car, price: state.car.price + action.payload.price, features: [...state.car.features, action.payload] }
             };
         case 'REMOVE_FEATURE':
-            let filter = [...state.car.features.filter(feature => {
-                return feature.name !== action.payload
-            })]
-            return filter;
+            console.log('remove feature', state, action)
+            let index = state.car.features.indexOf(action.payload) + 1
+            console.log(index)
+            let remove = state.car.features.splice(index, 1)
+            console.log(remove)
+            // let filter = state.car.features.filter(feature => {
+            //     return feature.id !== action.payload.id;
+            // })
+            return {
+                ...state,
+                car: { ...state.car, features: [...state.car.features] }
+            }
         default:
             return state;
     }
